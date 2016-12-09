@@ -1347,8 +1347,13 @@
     function resHandling(err, data) {
       var res = {};
 
-      res.data = data !== '' ? JSON.parse(data) : {};
       res.err = err ? new Error(res.data.exception || '') : null;
+
+      try{
+        res.data = data !== '' ? JSON.parse(data) : {};
+      }catch(e){
+        res.err = new Error('Invalid JSON response ' + data);
+      }
 
       return res;
     }

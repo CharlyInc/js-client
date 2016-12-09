@@ -1347,10 +1347,11 @@
     function resHandling(err, data) {
       var res = {};
 
-      res.err = err ? new Error(res.data.exception || '') : null;
+      res.err = err;
 
       try{
-        res.data = data !== '' ? JSON.parse(data) : {};
+        res.data = data ? JSON.parse(data) : {};
+        res.err = res.data.exception ? new Error(res.data.exception) : null;
       }catch(e){
         res.err = new Error('Invalid JSON response ' + data);
       }
